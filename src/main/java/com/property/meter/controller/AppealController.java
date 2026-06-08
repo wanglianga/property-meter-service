@@ -1,11 +1,12 @@
 package com.property.meter.controller;
 
 import com.property.meter.common.Result;
+import com.property.meter.converter.VOConverter;
 import com.property.meter.dto.AppealDTO;
 import com.property.meter.dto.AppealHandleDTO;
-import com.property.meter.entity.Appeal;
 import com.property.meter.entity.enums.AppealStatus;
 import com.property.meter.service.AppealService;
+import com.property.meter.vo.AppealVO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -20,47 +21,47 @@ public class AppealController {
     private final AppealService appealService;
 
     @PostMapping
-    public Result<Appeal> create(@Valid @RequestBody AppealDTO dto) {
-        return Result.success(appealService.create(dto));
+    public Result<AppealVO> create(@Valid @RequestBody AppealDTO dto) {
+        return Result.success(VOConverter.toAppealVO(appealService.create(dto)));
     }
 
     @PostMapping("/handle")
-    public Result<Appeal> handle(@Valid @RequestBody AppealHandleDTO dto) {
-        return Result.success(appealService.handle(dto));
+    public Result<AppealVO> handle(@Valid @RequestBody AppealHandleDTO dto) {
+        return Result.success(VOConverter.toAppealVO(appealService.handle(dto)));
     }
 
     @GetMapping("/{id}")
-    public Result<Appeal> getById(@PathVariable Long id) {
-        return Result.success(appealService.getById(id));
+    public Result<AppealVO> getById(@PathVariable Long id) {
+        return Result.success(VOConverter.toAppealVO(appealService.getById(id)));
     }
 
     @GetMapping("/no/{appealNo}")
-    public Result<Appeal> getByAppealNo(@PathVariable String appealNo) {
-        return Result.success(appealService.getByAppealNo(appealNo));
+    public Result<AppealVO> getByAppealNo(@PathVariable String appealNo) {
+        return Result.success(VOConverter.toAppealVO(appealService.getByAppealNo(appealNo)));
     }
 
     @GetMapping("/bill/{billId}")
-    public Result<List<Appeal>> listByBill(@PathVariable Long billId) {
-        return Result.success(appealService.listByBill(billId));
+    public Result<List<AppealVO>> listByBill(@PathVariable Long billId) {
+        return Result.success(VOConverter.toAppealVOList(appealService.listByBill(billId)));
     }
 
     @GetMapping("/room/{roomId}")
-    public Result<List<Appeal>> listByRoom(@PathVariable Long roomId) {
-        return Result.success(appealService.listByRoom(roomId));
+    public Result<List<AppealVO>> listByRoom(@PathVariable Long roomId) {
+        return Result.success(VOConverter.toAppealVOList(appealService.listByRoom(roomId)));
     }
 
     @GetMapping("/status/{status}")
-    public Result<List<Appeal>> listByStatus(@PathVariable AppealStatus status) {
-        return Result.success(appealService.listByStatus(status));
+    public Result<List<AppealVO>> listByStatus(@PathVariable AppealStatus status) {
+        return Result.success(VOConverter.toAppealVOList(appealService.listByStatus(status)));
     }
 
     @GetMapping("/room/{roomId}/status/{status}")
-    public Result<List<Appeal>> listByRoomAndStatus(@PathVariable Long roomId, @PathVariable AppealStatus status) {
-        return Result.success(appealService.listByRoomAndStatus(roomId, status));
+    public Result<List<AppealVO>> listByRoomAndStatus(@PathVariable Long roomId, @PathVariable AppealStatus status) {
+        return Result.success(VOConverter.toAppealVOList(appealService.listByRoomAndStatus(roomId, status)));
     }
 
     @GetMapping
-    public Result<List<Appeal>> listAll() {
-        return Result.success(appealService.listAll());
+    public Result<List<AppealVO>> listAll() {
+        return Result.success(VOConverter.toAppealVOList(appealService.listAll()));
     }
 }

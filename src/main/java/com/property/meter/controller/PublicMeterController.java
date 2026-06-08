@@ -1,12 +1,13 @@
 package com.property.meter.controller;
 
 import com.property.meter.common.Result;
+import com.property.meter.converter.VOConverter;
 import com.property.meter.dto.PublicMeterDTO;
 import com.property.meter.dto.PublicMeterReadingDTO;
-import com.property.meter.entity.PublicMeter;
-import com.property.meter.entity.PublicMeterReading;
 import com.property.meter.entity.enums.MeterType;
 import com.property.meter.service.PublicMeterService;
+import com.property.meter.vo.PublicMeterReadingVO;
+import com.property.meter.vo.PublicMeterVO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +22,13 @@ public class PublicMeterController {
     private final PublicMeterService publicMeterService;
 
     @PostMapping
-    public Result<PublicMeter> createMeter(@Valid @RequestBody PublicMeterDTO dto) {
-        return Result.success(publicMeterService.createMeter(dto));
+    public Result<PublicMeterVO> createMeter(@Valid @RequestBody PublicMeterDTO dto) {
+        return Result.success(VOConverter.toPublicMeterVO(publicMeterService.createMeter(dto)));
     }
 
     @PutMapping("/{id}")
-    public Result<PublicMeter> updateMeter(@PathVariable Long id, @Valid @RequestBody PublicMeterDTO dto) {
-        return Result.success(publicMeterService.updateMeter(id, dto));
+    public Result<PublicMeterVO> updateMeter(@PathVariable Long id, @Valid @RequestBody PublicMeterDTO dto) {
+        return Result.success(VOConverter.toPublicMeterVO(publicMeterService.updateMeter(id, dto)));
     }
 
     @DeleteMapping("/{id}")
@@ -37,38 +38,38 @@ public class PublicMeterController {
     }
 
     @GetMapping("/{id}")
-    public Result<PublicMeter> getMeterById(@PathVariable Long id) {
-        return Result.success(publicMeterService.getMeterById(id));
+    public Result<PublicMeterVO> getMeterById(@PathVariable Long id) {
+        return Result.success(VOConverter.toPublicMeterVO(publicMeterService.getMeterById(id)));
     }
 
     @GetMapping("/code/{code}")
-    public Result<PublicMeter> getMeterByCode(@PathVariable String code) {
-        return Result.success(publicMeterService.getMeterByCode(code));
+    public Result<PublicMeterVO> getMeterByCode(@PathVariable String code) {
+        return Result.success(VOConverter.toPublicMeterVO(publicMeterService.getMeterByCode(code)));
     }
 
     @GetMapping("/building/{buildingId}")
-    public Result<List<PublicMeter>> listMetersByBuilding(@PathVariable Long buildingId) {
-        return Result.success(publicMeterService.listMetersByBuilding(buildingId));
+    public Result<List<PublicMeterVO>> listMetersByBuilding(@PathVariable Long buildingId) {
+        return Result.success(VOConverter.toPublicMeterVOList(publicMeterService.listMetersByBuilding(buildingId)));
     }
 
     @GetMapping("/building/{buildingId}/type/{type}")
-    public Result<List<PublicMeter>> listMetersByBuildingAndType(@PathVariable Long buildingId, @PathVariable MeterType type) {
-        return Result.success(publicMeterService.listMetersByBuildingAndType(buildingId, type));
+    public Result<List<PublicMeterVO>> listMetersByBuildingAndType(@PathVariable Long buildingId, @PathVariable MeterType type) {
+        return Result.success(VOConverter.toPublicMeterVOList(publicMeterService.listMetersByBuildingAndType(buildingId, type)));
     }
 
     @GetMapping("/active")
-    public Result<List<PublicMeter>> listAllActiveMeters() {
-        return Result.success(publicMeterService.listAllActiveMeters());
+    public Result<List<PublicMeterVO>> listAllActiveMeters() {
+        return Result.success(VOConverter.toPublicMeterVOList(publicMeterService.listAllActiveMeters()));
     }
 
     @PostMapping("/readings")
-    public Result<PublicMeterReading> createReading(@Valid @RequestBody PublicMeterReadingDTO dto) {
-        return Result.success(publicMeterService.createReading(dto));
+    public Result<PublicMeterReadingVO> createReading(@Valid @RequestBody PublicMeterReadingDTO dto) {
+        return Result.success(VOConverter.toPublicMeterReadingVO(publicMeterService.createReading(dto)));
     }
 
     @PutMapping("/readings/{id}")
-    public Result<PublicMeterReading> updateReading(@PathVariable Long id, @Valid @RequestBody PublicMeterReadingDTO dto) {
-        return Result.success(publicMeterService.updateReading(id, dto));
+    public Result<PublicMeterReadingVO> updateReading(@PathVariable Long id, @Valid @RequestBody PublicMeterReadingDTO dto) {
+        return Result.success(VOConverter.toPublicMeterReadingVO(publicMeterService.updateReading(id, dto)));
     }
 
     @DeleteMapping("/readings/{id}")
@@ -78,22 +79,22 @@ public class PublicMeterController {
     }
 
     @GetMapping("/readings/{id}")
-    public Result<PublicMeterReading> getReadingById(@PathVariable Long id) {
-        return Result.success(publicMeterService.getReadingById(id));
+    public Result<PublicMeterReadingVO> getReadingById(@PathVariable Long id) {
+        return Result.success(VOConverter.toPublicMeterReadingVO(publicMeterService.getReadingById(id)));
     }
 
     @GetMapping("/{publicMeterId}/readings")
-    public Result<List<PublicMeterReading>> listReadingsByMeter(@PathVariable Long publicMeterId) {
-        return Result.success(publicMeterService.listReadingsByMeter(publicMeterId));
+    public Result<List<PublicMeterReadingVO>> listReadingsByMeter(@PathVariable Long publicMeterId) {
+        return Result.success(VOConverter.toPublicMeterReadingVOList(publicMeterService.listReadingsByMeter(publicMeterId)));
     }
 
     @GetMapping("/readings/period/{period}")
-    public Result<List<PublicMeterReading>> listReadingsByPeriod(@PathVariable String period) {
-        return Result.success(publicMeterService.listReadingsByPeriod(period));
+    public Result<List<PublicMeterReadingVO>> listReadingsByPeriod(@PathVariable String period) {
+        return Result.success(VOConverter.toPublicMeterReadingVOList(publicMeterService.listReadingsByPeriod(period)));
     }
 
     @GetMapping("/{publicMeterId}/readings/period/{period}")
-    public Result<PublicMeterReading> getReadingByMeterAndPeriod(@PathVariable Long publicMeterId, @PathVariable String period) {
-        return Result.success(publicMeterService.getReadingByMeterAndPeriod(publicMeterId, period));
+    public Result<PublicMeterReadingVO> getReadingByMeterAndPeriod(@PathVariable Long publicMeterId, @PathVariable String period) {
+        return Result.success(VOConverter.toPublicMeterReadingVO(publicMeterService.getReadingByMeterAndPeriod(publicMeterId, period)));
     }
 }

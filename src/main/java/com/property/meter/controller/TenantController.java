@@ -1,9 +1,10 @@
 package com.property.meter.controller;
 
 import com.property.meter.common.Result;
+import com.property.meter.converter.VOConverter;
 import com.property.meter.dto.TenantDTO;
-import com.property.meter.entity.Tenant;
 import com.property.meter.service.TenantService;
+import com.property.meter.vo.TenantVO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +19,13 @@ public class TenantController {
     private final TenantService tenantService;
 
     @PostMapping
-    public Result<Tenant> create(@Valid @RequestBody TenantDTO dto) {
-        return Result.success(tenantService.create(dto));
+    public Result<TenantVO> create(@Valid @RequestBody TenantDTO dto) {
+        return Result.success(VOConverter.toTenantVO(tenantService.create(dto)));
     }
 
     @PutMapping("/{id}")
-    public Result<Tenant> update(@PathVariable Long id, @Valid @RequestBody TenantDTO dto) {
-        return Result.success(tenantService.update(id, dto));
+    public Result<TenantVO> update(@PathVariable Long id, @Valid @RequestBody TenantDTO dto) {
+        return Result.success(VOConverter.toTenantVO(tenantService.update(id, dto)));
     }
 
     @DeleteMapping("/{id}")
@@ -34,27 +35,27 @@ public class TenantController {
     }
 
     @GetMapping("/{id}")
-    public Result<Tenant> getById(@PathVariable Long id) {
-        return Result.success(tenantService.getById(id));
+    public Result<TenantVO> getById(@PathVariable Long id) {
+        return Result.success(VOConverter.toTenantVO(tenantService.getById(id)));
     }
 
     @GetMapping("/code/{code}")
-    public Result<Tenant> getByCode(@PathVariable String code) {
-        return Result.success(tenantService.getByCode(code));
+    public Result<TenantVO> getByCode(@PathVariable String code) {
+        return Result.success(VOConverter.toTenantVO(tenantService.getByCode(code)));
     }
 
     @GetMapping("/room/{roomId}")
-    public Result<List<Tenant>> listByRoom(@PathVariable Long roomId) {
-        return Result.success(tenantService.listByRoom(roomId));
+    public Result<List<TenantVO>> listByRoom(@PathVariable Long roomId) {
+        return Result.success(VOConverter.toTenantVOList(tenantService.listByRoom(roomId)));
     }
 
     @GetMapping("/room/{roomId}/active")
-    public Result<List<Tenant>> listActiveByRoom(@PathVariable Long roomId) {
-        return Result.success(tenantService.listActiveByRoom(roomId));
+    public Result<List<TenantVO>> listActiveByRoom(@PathVariable Long roomId) {
+        return Result.success(VOConverter.toTenantVOList(tenantService.listActiveByRoom(roomId)));
     }
 
     @GetMapping("/active")
-    public Result<List<Tenant>> listAllActive() {
-        return Result.success(tenantService.listAllActive());
+    public Result<List<TenantVO>> listAllActive() {
+        return Result.success(VOConverter.toTenantVOList(tenantService.listAllActive()));
     }
 }
